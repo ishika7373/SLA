@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DigiHaat COO SLA Flagging System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header>
+      <div class="header-brand">
+        <img src="digihaat_logo.png" alt="DigiHaat Logo" class="logo-img" style="height: 36px; width: auto; margin-right: 0.25rem;">
+        <div class="brand-text">
+          <h1>DigiHaat COO SLA Flagging System</h1>
+          <p>Nirmit Bharat • ONDC Operations Controller</p>
+        </div>
+      </div>
+      
+      <!-- Preset Selectors -->
+      <div class="preset-container">
+        <button class="preset-btn active" data-preset="healthy">Healthy Day</button>
+        <button class="preset-btn" data-preset="system_outage">System Outage (P0 Breach)</button>
+        <button class="preset-btn" data-preset="swadeshi_crisis">Swadeshi Crisis</button>
+        <button class="preset-btn" data-preset="data_gaps">Data Gaps</button>
+      </div>
+
+      <div class="header-meta">
+        <div class="meta-item">
+          <span class="meta-label">System Time (IST)</span>
+          <span class="meta-value" id="current-time-val">Loading...</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Scale Capacity</span>
+          <span class="meta-value" style="color: var(--status-healthy);">Active Monitoring</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace Grid -->
+    <main class="dashboard-grid">
+      
+      <!-- Left Panel: Metric Inputs -->
+      <section class="card" id="input-panel">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Operational Inputs</h2>
+            <p class="card-subtitle">Adjust metrics below to simulate SLA breaches</p>
+          </div>
+        </div>
+        <div class="card-body">
+          
+          <!-- E-Commerce Accordion -->
+          <div class="business-line-section">
+            <button class="section-trigger" data-target="sec-ecommerce">
+              <span>🛒 E-Commerce Marketplace</span>
+              <span class="section-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </span>
+            </button>
+            <div class="section-content" id="sec-ecommerce">
+              
+              <!-- Latency -->
+              <div class="metric-control-card">
+                <div class="metric-control-header">
+                  <div class="metric-name-container">
+                    <span class="metric-label-text">Order Latency</span>
+                    <span class="metric-meta-details">Target: &lt;30s | Critical: &gt;2m</span>
+                  </div>
+                  <div class="metric-value-display">
+                    <span class="metric-value-num" id="val-order_latency">25s</span>
+                    <span class="metric-score-pill healthy-bg" id="scorepill-order_latency">Score: 100</span>
+                  </div>
+                </div>
+                <div class="metric-slider-wrapper">
+                  <input type="range" class="slider-input" id="slider-order_latency" min="5" max="300" step="5" value="25">
+                  <button class="gap-toggle" id="gapbtn-order_latency">GAP</button>
+                </div>
+              </div>
+
+              <!-- Onboarding -->
+              <div class="metric-control-card">
+                <div class="metric-control-header">
+                  <div class="metric-name-container">
+                    <span class="metric-label-text">Seller Onboarding TAT</span>
+                    <span class="metric-meta-details">Target: &lt;72h | Critical: &gt;120h</span>
+                  </div>
+                  <div class="metric-value-display">
+                    <span class="metric-value-num" id="val-seller_onboarding">48h</span>
+                    <span class="metric-score-pill healthy-bg" id="scorepill-seller_onboarding">Score: 100</span>
+                  </div>
+                </div>
+                <div class="metric-slider-wrapper">
+                  <input type="range" class="slider-input" id="slider-seller_onboarding" min="24" max="168" step="4" value="48">
+                  <button class="gap-toggle" id="gapbtn-seller_onboarding">GAP</button>
+                </div>
+              </div>
+
+              <!-- RTO Rate -->
+              <div class="metric-control-card">
+                <div class="metric-control-header">
+                  <div class="metric-name-container">
+                    <span class="metric-label-text">RTO Rate</span>
+                    <span class="metric-meta-details">Target: &lt;12% | Critical: &gt;20%</span>
+                  </div>
+                  <div class="metric-value-display">
+                    <span class="metric-value-num" id="val-rto_rate">10%</span>
+                    <span class="metric-score-pill healthy-bg" id="scorepill-rto_rate">Score: 100</span>
+                  </div>
+                </div>
+                <div class="metric-slider-wrapper">
+                  <input type="range" class="slider-input" id="slider-rto_rate" min="2" max="35" step="0.5" value="10">
+                  <button class="gap-toggle" id="gapbtn-rto_rate">GAP</button>
+                </div>
+              </div>
+
+              <!-- Catalogue Quality -->
+              <div class="metric-control-card">
+                <div class="metric-control-header">
+                  <div class="metric-name-container">
+                    <span class="metric-label-text">Catalogue Quality</span>
+                    <span class="metric-meta-details">Target: &gt;85% | Critical: &lt;70%</span>
+                  </div>
+                  <div class="metric-value-display">
+                    <span class="metric-value-num" id="val-catalogue_quality">90%</span>
+                    <span class="metric-score-pill healthy-bg" id="scorepill-catalogue_quality">Score: 100</span>
+                  </div>
+                </div>
+                <div class="metric-slider-wrapper">
+                  <input type="range" class="slider-input" id="slider-catalogue_quality" min="50" max="100" step="1" value="90">
+                  <button class="gap-toggle" id="gapbtn-catalogue_quality">GAP</button>
+                </div>
+              </div>
+
+              <!-- Dispute Resolution -->
+              <div class="metric-control-card">
+                <div class="metric-control-header">
+                  <div class="metric-name-container">
+                    <span class="metric-label-text">Dispute Resolution TAT</span>
+                    <span class="metric-meta-details">Target: &lt;48h | Critical: &gt;96h</span>
+                  </div>
+                  <div class="metric-value-display">
+                    <span class="metric-value-num" id="val-buyer_dispute">36h</span>
+                    <span class="metric-score-pill healthy-bg" id="scorepill-buyer_dispute">Score: 100</span>
+                  </div>
+                </div>
+                <div class="metric-slider-wrapper">
+                  <input type="range" class="slider-input" id="slider-buyer_dispute" min="12" max="168" step="4" value="36">
+                  <button class="gap-toggle" id="gapbtn-buyer_dispute">GAP</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Mobility Accordion -->
+          <div class="business-line-section">
+            <button class="section-trigger collapsed" data-target="sec-mobility">
+              <span>🚗 Mobility (DigiHaat Rides)</span>
+              <span class="section-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </span>
+            </button>
+            <div class="section-content collapsed" id="sec-mobility">
+              
+              <!-- Allocation Time -->
+              <div class="metric-control-card">
+                <div class="metric-control-header">
+                  <div class="metric-name-container">
+                    <span class="metric-label-text">Driver Allocation Time</span>
+                    <span class="metric-meta-details">Target: &lt;90s | Critical: &gt;5m</span>
+                  </div>
+                  <div class="metric-value-display">
+                    <span class="metric-value-num" id="val-driver_allocation">80s</span>
+                    <span class="metric-score-pill healthy-bg" id="scorepill-driver_allocation">Score: 100</span>
+                  </div>
+                </div>
+                <div class="metric-slider-wrapper">
+                  <input type="range" class="slider-input" id="slider-driver_allocation" min="30" max="600" step="10" value="80">
+                  <button class="gap-toggle" id="gapbtn-driver_allocation">GAP</button>
+                </div>
+              </div>
+
+              <!-- Compliance -->
+              <div class="metric-control-card">
+                <div class="metric-control-header">
+                  <div class="metric-name-container">
+                    <span class="metric-label-text">Driver Compliance</span>
+                    <span class="metric-meta-details">Target: 100% | Critical: &lt;95%</span>
+                  </div>
+                  <div class="metric-value-display">
+                    <span class="metric-value-num" id="val-driver_compliance">100%</span>
+                    <span class="metric-score-pill healthy-bg" id="scorepill-driver_compliance">Score: 100</span>
+                  </div>
+                </div>
+                <div class="metric-slider-wrapper">
+                  <input type="range" class="slider-input" id="slider-driver_compliance" min="80" max="100" step="1" value="100">
+                  <button class="gap-toggle" id="gapbtn-driver_compliance">GAP</button>
+                </div>
+              </div>
+
+              <!-- Surge Complaint -->
+              <div class="metric-control-card">
+                <div class="metric-control-header">
+                  <div class="metric-name-container">
+                    <span class="metric-label-text">Surge Complaint Resolution</span>
+                    <span class="metric-meta-details">Target: &lt;24h | Critical: &gt;72h</span>
+                  </div>
+                  <div class="metric-value-display">
+                    <span class="metric-value-num" id="val-surge_complaint">20h</span>
+                    <span class="metric-score-pill healthy-bg" id="scorepill-surge_complaint">Score: 100</span>
+                  </div>
+                </div>
+                <div class="metric-slider-wrapper">
+                  <input type="range" class="slider-input" id="slider-surge_complaint" min="6" max="120" step="2" value="20">
+                  <button class="gap-toggle" id="gapbtn-surge_complaint">GAP</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Metro Ticketing Accordion -->
+          <div class="business-line-section">
+            <button class="section-trigger collapsed" data-target="sec-metro">
+              <span>🚇 Metro Ticketing</span>
+              <span class="section-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </span>
+            </button>
+            <div class="section-content collapsed" id="sec-metro">
+              
+              <!-- Ticket Issuance Success Rate -->
+              <div class="metric-control-card">
+                <div class="metric-control-header">
+                  <div class="metric-name-container">
+                    <span class="metric-label-text">Ticket Issuance Success</span>
+                    <span class="metric-meta-details">Target: &gt;99.5% | Critical: &lt;98%</span>
+                  </div>
+                  <div class="metric-value-display">
+                    <span class="metric-value-num" id="val-ticket_success">99.8%</span>
+                    <span class="metric-score-pill healthy-bg" id="scorepill-ticket_success">Score: 100</span>
+                  </div>
+                </div>
+                <div class="metric-slider-wrapper">
+                  <input type="range" class="slider-input" id="slider-ticket_success" min="90" max="100" step="0.1" value="99.8">
+                  <button class="gap-toggle" id="gapbtn-ticket_success">GAP</button>
+                </div>
+              </div>
+
+              <!-- Refund TAT -->
+              <div class="metric-control-card">
+                <div class="metric-control-header">
+                  <div class="metric-name-container">
+                    <span class="metric-label-text">Refund TAT</span>
+                    <span class="metric-meta-details">Target: &lt;5d | Critical: &gt;10d</span>
+                  </div>
+                  <div class="metric-value-display">
+                    <span class="metric-value-num" id="val-refund_tat">3 days</span>
+                    <span class="metric-score-pill healthy-bg" id="scorepill-refund_tat">Score: 100</span>
+                  </div>
+                </div>
+                <div class="metric-slider-wrapper">
+                  <input type="range" class="slider-input" id="slider-refund_tat" min="1" max="15" step="1" value="3">
+                  <button class="gap-toggle" id="gapbtn-refund_tat">GAP</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Swadeshi Marketplace Accordion -->
+          <div class="business-line-section">
+            <button class="section-trigger collapsed" data-target="sec-swadeshi">
+              <span>🌾 Swadeshi Marketplace</span>
+              <span class="section-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </span>
+            </button>
+            <div class="section-content collapsed" id="sec-swadeshi">
+              
+              <!-- Certification TAT -->
+              <div class="metric-control-card">
+                <div class="metric-control-header">
+                  <div class="metric-name-container">
+                    <span class="metric-label-text">Artisan Certification</span>
+                    <span class="metric-meta-details">Target: &lt;5d | Critical: &gt;15d</span>
+                  </div>
+                  <div class="metric-value-display">
+                    <span class="metric-value-num" id="val-artisan_verification">4 days</span>
+                    <span class="metric-score-pill healthy-bg" id="scorepill-artisan_verification">Score: 100</span>
+                  </div>
+                </div>
+                <div class="metric-slider-wrapper">
+                  <input type="range" class="slider-input" id="slider-artisan_verification" min="2" max="30" step="1" value="4">
+                  <button class="gap-toggle" id="gapbtn-artisan_verification">GAP</button>
+                </div>
+              </div>
+
+              <!-- Payment Settlement -->
+              <div class="metric-control-card">
+                <div class="metric-control-header">
+                  <div class="metric-name-container">
+                    <span class="metric-label-text">Artisan Payment (T+X)</span>
+                    <span class="metric-meta-details">Target: T+2 | Critical: &gt;T+5</span>
+                  </div>
+                  <div class="metric-value-display">
+                    <span class="metric-value-num" id="val-artisan_payment">2 days</span>
+                    <span class="metric-score-pill healthy-bg" id="scorepill-artisan_payment">Score: 100</span>
+                  </div>
+                </div>
+                <div class="metric-slider-wrapper">
+                  <input type="range" class="slider-input" id="slider-artisan_payment" min="1" max="10" step="1" value="2">
+                  <button class="gap-toggle" id="gapbtn-artisan_payment">GAP</button>
+                </div>
+              </div>
+
+              <!-- Listing Quality -->
+              <div class="metric-control-card">
+                <div class="metric-control-header">
+                  <div class="metric-name-container">
+                    <span class="metric-label-text">Listing Quality Review</span>
+                    <span class="metric-meta-details">Target: &lt;48h | Critical: &gt;120h</span>
+                  </div>
+                  <div class="metric-value-display">
+                    <span class="metric-value-num" id="val-cultural_quality">30h</span>
+                    <span class="metric-score-pill healthy-bg" id="scorepill-cultural_quality">Score: 100</span>
+                  </div>
+                </div>
+                <div class="metric-slider-wrapper">
+                  <input type="range" class="slider-input" id="slider-cultural_quality" min="12" max="168" step="6" value="30">
+                  <button class="gap-toggle" id="gapbtn-cultural_quality">GAP</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Network & Platform Accordion -->
+          <div class="business-line-section">
+            <button class="section-trigger collapsed" data-target="sec-platform">
+              <span>🌐 Network & Platform Ops</span>
+              <span class="section-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </span>
+            </button>
+            <div class="section-content collapsed" id="sec-platform">
+              
+              <!-- Gateway Uptime -->
+              <div class="metric-control-card">
+                <div class="metric-control-header">
+                  <div class="metric-name-container">
+                    <span class="metric-label-text">ONDC Gateway Uptime</span>
+                    <span class="metric-meta-details">Target: 99.9% | Critical: &lt;99.5%</span>
+                  </div>
+                  <div class="metric-value-display">
+                    <span class="metric-value-num" id="val-network_uptime">99.95%</span>
+                    <span class="metric-score-pill healthy-bg" id="scorepill-network_uptime">Score: 100</span>
+                  </div>
+                </div>
+                <div class="metric-slider-wrapper">
+                  <input type="range" class="slider-input" id="slider-network_uptime" min="95" max="100" step="0.05" value="99.95">
+                  <button class="gap-toggle" id="gapbtn-network_uptime">GAP</button>
+                </div>
+              </div>
+
+              <!-- City Ops Coverage -->
+              <div class="metric-control-card">
+                <div class="metric-control-header">
+                  <div class="metric-name-container">
+                    <span class="metric-label-text">City Ops Coverage Score</span>
+                    <span class="metric-meta-details">Target: &gt;90% | Critical: &lt;75%</span>
+                  </div>
+                  <div class="metric-value-display">
+                    <span class="metric-value-num" id="val-city_ops">92%</span>
+                    <span class="metric-score-pill healthy-bg" id="scorepill-city_ops">Score: 100</span>
+                  </div>
+                </div>
+                <div class="metric-slider-wrapper">
+                  <input type="range" class="slider-input" id="slider-city_ops" min="60" max="100" step="1" value="92">
+                  <button class="gap-toggle" id="gapbtn-city_ops">GAP</button>
+                </div>
+              </div>
+
+              <!-- COO Escalation TAT -->
+              <div class="metric-control-card">
+                <div class="metric-control-header">
+                  <div class="metric-name-container">
+                    <span class="metric-label-text">COO Escalation Response</span>
+                    <span class="metric-meta-details">Target: &lt;4h | Critical: &gt;12h</span>
+                  </div>
+                  <div class="metric-value-display">
+                    <span class="metric-value-num" id="val-coo_escalation">2.5h</span>
+                    <span class="metric-score-pill healthy-bg" id="scorepill-coo_escalation">Score: 100</span>
+                  </div>
+                </div>
+                <div class="metric-slider-wrapper">
+                  <input type="range" class="slider-input" id="slider-coo_escalation" min="1" max="24" step="0.5" value="2.5">
+                  <button class="gap-toggle" id="gapbtn-coo_escalation">GAP</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Center Panel: The COO Daily Brief -->
+      <section class="card" id="report-panel">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">📋 COO Daily SLA Report</h2>
+            <p class="card-subtitle">Generated in plain text briefing format</p>
+          </div>
+          <div class="brief-actions">
+            <button class="btn btn-secondary" id="copy-report-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy Brief</span>
+            </button>
+          </div>
+        </div>
+        <div class="card-body" style="padding: 0.5rem; display: flex; flex-direction: column;">
+          <pre id="report-text-area" class="report-container">Generating daily operations report...</pre>
+        </div>
+      </section>
+
+      <!-- Right Panel: Visual Gauges & Health -->
+      <section class="card" id="visual-panel">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">📊 Operational Health</h2>
+            <p class="card-subtitle">Real-time status aggregates</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="gauge-section">
+            
+            <!-- Health Score Dial -->
+            <div class="score-hero-container">
+              <div class="score-dial">
+                <svg class="score-ring-svg">
+                  <circle class="score-ring-bg" cx="70" cy="70" r="58"></circle>
+                  <circle class="score-ring-fill" id="health-ring-fill" cx="70" cy="70" r="58" stroke-dasharray="364.4" stroke-dashoffset="0"></circle>
+                </svg>
+                <div class="score-center-text">
+                  <span class="score-big-num" id="health-score-num">100</span>
+                  <span class="score-total-denom">/ 100</span>
+                </div>
+              </div>
+              <span class="score-label">Network Health Score</span>
+            </div>
+
+            <!-- Business Line Breakdown -->
+            <div class="line-health-list">
+              <h3 style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); font-weight:700;">Business Line Averages</h3>
+              
+              <div class="line-health-item">
+                <div class="line-info">
+                  <div class="line-color-dot" id="line-dot-ecommerce-marketplace" style="background-color: var(--status-healthy);"></div>
+                  <span class="line-name">E-Commerce Marketplace</span>
+                </div>
+                <span class="line-score-val" id="line-score-ecommerce-marketplace">100/100</span>
+              </div>
+
+              <div class="line-health-item">
+                <div class="line-info">
+                  <div class="line-color-dot" id="line-dot-mobility-digihaat-rides" style="background-color: var(--status-healthy);"></div>
+                  <span class="line-name">Mobility Rides</span>
+                </div>
+                <span class="line-score-val" id="line-score-mobility-digihaat-rides">100/100</span>
+              </div>
+
+              <div class="line-health-item">
+                <div class="line-info">
+                  <div class="line-color-dot" id="line-dot-metro-ticketing" style="background-color: var(--status-healthy);"></div>
+                  <span class="line-name">Metro Ticketing</span>
+                </div>
+                <span class="line-score-val" id="line-score-metro-ticketing">100/100</span>
+              </div>
+
+              <div class="line-health-item">
+                <div class="line-info">
+                  <div class="line-color-dot" id="line-dot-swadeshi-marketplace" style="background-color: var(--status-healthy);"></div>
+                  <span class="line-name">Swadeshi Marketplace</span>
+                </div>
+                <span class="line-score-val" id="line-score-swadeshi-marketplace">100/100</span>
+              </div>
+
+              <div class="line-health-item">
+                <div class="line-info">
+                  <div class="line-color-dot" id="line-dot-network-platform-ops" style="background-color: var(--status-healthy);"></div>
+                  <span class="line-name">Network & Platform Ops</span>
+                </div>
+                <span class="line-score-val" id="line-score-network-platform-ops">100/100</span>
+              </div>
+            </div>
+
+            <!-- Guardrails Panel -->
+            <div class="guardrail-panel">
+              <h4 class="guardrail-title">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                Guardrails Enforced
+              </h4>
+              <div class="guardrail-list">
+                <div class="guardrail-item">
+                  <span id="chk-coo-auto" class="guardrail-status-icon"><span class="healthy-text">✓ Passed</span></span>
+                  <span>Auto-routed issues excluded from COO Escalate</span>
+                </div>
+                <div class="guardrail-item">
+                  <span id="chk-p0-owner" class="guardrail-status-icon"><span class="healthy-text">✓ Passed</span></span>
+                  <span>Active P0 breaches have named owners & actions</span>
+                </div>
+                <div class="guardrail-item">
+                  <span id="chk-scale" class="guardrail-status-icon"><span class="healthy-text">✓ Passed</span></span>
+                  <span>Grounded impact calculations in operational scale</span>
+                </div>
+                <div class="guardrail-item">
+                  <span id="chk-swadeshi" class="guardrail-status-icon"><span class="healthy-text">✓ Passed</span></span>
+                  <span>Swadeshi breaches highlight authenticity mission-risk</span>
+                </div>
+                <div class="guardrail-item">
+                  <span id="chk-gaps" class="guardrail-status-icon"><span class="healthy-text">✓ Passed</span></span>
+                  <span>Gaps force data ingestion diagnostic checks</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Section: Decision & Triage Board -->
+    <section class="triage-section">
+      
+      <!-- Fully Automate Queue -->
+      <article class="card triage-card">
+        <div class="card-header">
+          <span class="card-title">🤖 Fully Automate</span>
+          <span class="triage-count-badge" id="auto-queue-count">0</span>
+        </div>
+        <div class="card-body">
+          <div class="triage-list" id="auto-queue-list">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </article>
+
+      <!-- Human + AI Queue -->
+      <article class="card triage-card">
+        <div class="card-header">
+          <span class="card-title">👥 Human + AI (Ops Team)</span>
+          <span class="triage-count-badge" id="ops-queue-count">0</span>
+        </div>
+        <div class="card-body">
+          <div class="triage-list" id="ops-queue-list">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </article>
+
+      <!-- COO Personal Escalation Command Center -->
+      <article class="card triage-card" style="border-color: rgba(239, 68, 68, 0.15);">
+        <div class="card-header" style="background: rgba(239, 68, 68, 0.02); border-bottom: 1px solid rgba(239, 68, 68, 0.1);">
+          <span class="card-title" style="color: var(--status-breached);">🚨 COO Command Center</span>
+          <span class="triage-count-badge" id="coo-queue-count" style="background: rgba(239, 68, 68, 0.2); color: #fca5a5;">0</span>
+        </div>
+        <div class="card-body">
+          <div class="triage-list" id="coo-queue-list">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </article>
+
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
