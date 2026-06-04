@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DigiHaat COO SLA Flagging System</title>
+  <title>SLA Flagging Dashboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,19 +12,21 @@
     <!-- Header -->
     <header>
       <div class="header-brand">
-        <img src="digihaat_logo.png" alt="DigiHaat Logo" class="logo-img" style="height: 36px; width: auto; margin-right: 0.25rem;">
+        <img src="digihaat_logo.png" alt="DigiHaat Logo" class="logo-img" style="height: 34px; width: auto; border-radius: 6px; background: white; padding: 3px; display: block; object-fit: contain;">
         <div class="brand-text">
-          <h1>DigiHaat COO SLA Flagging System</h1>
+          <h1>SLA Flagging Dashboard</h1>
           <p>Nirmit Bharat • ONDC Operations Controller</p>
         </div>
       </div>
       
       <!-- Preset Selectors -->
-      <div class="preset-container">
-        <button class="preset-btn active" data-preset="healthy">Healthy Day</button>
-        <button class="preset-btn" data-preset="system_outage">System Outage (P0 Breach)</button>
-        <button class="preset-btn" data-preset="swadeshi_crisis">Swadeshi Crisis</button>
-        <button class="preset-btn" data-preset="data_gaps">Data Gaps</button>
+      <div class="preset-wrapper">
+        <div class="preset-container">
+          <button class="preset-btn active" data-preset="healthy">Healthy Day</button>
+          <button class="preset-btn" data-preset="system_outage">System Outage (P0 Breach)</button>
+          <button class="preset-btn" data-preset="swadeshi_crisis">Swadeshi Crisis</button>
+          <button class="preset-btn" data-preset="data_gaps">Data Gaps</button>
+        </div>
       </div>
 
       <div class="header-meta">
